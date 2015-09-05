@@ -6,5 +6,6 @@ public enum HookshotState {
 	Unavailable,
 	Shooting,
 	Dragging,
-	Switch
+	Switch,
+	Hurt
 };

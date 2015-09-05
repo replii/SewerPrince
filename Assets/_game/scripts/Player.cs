@@ -51,12 +51,9 @@ public class Player : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void Update() {
+	void FixedUpdate() {
 		GetInput();
 		Hookshot();
-	}
-
-	void FixedUpdate() {
 		WallRun();
 		Strafe();
 	}
@@ -83,6 +80,7 @@ public class Player : MonoBehaviour {
 	float toungeLength;
 	RaycastHit2D toungeRaycast;
 	float currentToungeCooldown;
+	float hurtTime;
 
 	void Hookshot() {
 		lineRenderer.SetPosition(0, transform.position);
@@ -117,7 +115,7 @@ public class Player : MonoBehaviour {
 				toungeRaycast = Physics2D.CircleCast(transform.position, .2f, savedJoystickRight, toungeLength, toungeLayer);
 				if (toungeRaycast.collider != null) { //Träffar ngt
 
-					if (toungeRaycast.collider.tag == "Player" && toungeRaycast.collider.name != this.name) {
+					if ((toungeRaycast.collider.tag == "Player" || toungeRaycast.collider.tag == "TpBox") && toungeRaycast.collider.name != this.name) {
 						currentHookshotState = HookshotState.Switch;
 					}
 					else {
@@ -140,18 +138,30 @@ public class Player : MonoBehaviour {
 				break;
 
 			case HookshotState.Switch:
-
-
-
 				Vector3 myPosition = transform.position;
 				transform.position = toungeRaycast.collider.transform.position;
 				toungeRaycast.collider.transform.position = myPosition;
 				rb.velocity = new Vector2(rb.velocity.x, wallRunSpeed);
 				toungeRaycast.collider.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-				gc.SetSlowMotion();
-
+				if (toungeRaycast.collider.tag == "Player") {
+					gc.SetSlowMotion();
+				}
 
 				currentHookshotState = HookshotState.Unavailable;
+				break;
+
+			case HookshotState.Hurt:
+				lineRenderer.SetPosition(1, transform.position);
+				hurtTime -= Time.deltaTime;
+
+				rb.velocity = Vector3.zero;
+
+
+
+				if (hurtTime <= 0) {
+					currentHookshotState = HookshotState.Unavailable;
+				}
+				
 				break;
 
 			default:
@@ -162,24 +172,30 @@ public class Player : MonoBehaviour {
 
 	void Strafe() {
 		if (currentHookshotState != HookshotState.Dragging) {
-			rb.velocity = new Vector2(joystickLeft.x * playerSpeed, rb.velocity.y);
+			if (currentHookshotState != HookshotState.Hurt) {
+				rb.velocity = new Vector2(joystickLeft.x * playerSpeed, rb.velocity.y);
+			}
 		}
 	}
 
 	void WallRun() {
 		if (currentHookshotState != HookshotState.Dragging) {
+			if (currentHookshotState != HookshotState.Hurt) {
 
-			if (Physics2D.OverlapCircle(transform.position + Vector3.down * .2f, .6f, stickyLayer)) {
-				rb.velocity = new Vector2(rb.velocity.x, wallRunSpeed * joystickLeft.y);
+				if (Physics2D.OverlapCircle(transform.position + Vector3.down * .2f, .6f, stickyLayer)) {
+					rb.velocity = new Vector2(rb.velocity.x, wallRunSpeed * joystickLeft.y);
+				}
+				else if (Physics2D.OverlapCircle(transform.position + Vector3.down * .2f, .6f, slimeLayer)) {
+					rb.velocity = new Vector2(rb.velocity.x, wallRunSpeed / 4 * joystickLeft.y);
+				}
 			}
-			else if (Physics2D.OverlapCircle(transform.position + Vector3.down * .2f, .6f, slimeLayer)) {
-				rb.velocity = new Vector2(rb.velocity.x, wallRunSpeed/4 * joystickLeft.y);
-			} 
-
 		}
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
-		print(other.name);
+		if (other.tag == "Hurt") {
+			hurtTime = .5f;
+			currentHookshotState = HookshotState.Hurt;
+		}
 	}
 }
