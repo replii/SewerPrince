@@ -9,10 +9,16 @@ public class GameController : MonoBehaviour {
 
 	public int leadingPlayer;
 
+	public Material[] playerMat;
+
 	// Use this for initialization
 	void Start () {
-		player[0] = Instantiate(playerPrefab).GetComponent<Player>();
-		player[1] = Instantiate(playerPrefab).GetComponent<Player>();
+		for (int i = 0; i < 2; i++) {
+			player[i] = Instantiate(playerPrefab).GetComponent<Player>();
+			player[i].GetComponent<MeshRenderer>().material = playerMat[i];
+			player[i].gameObject.name = "player " + i;
+		}
+		
 	}
 	
 	// Update is called once per frame
@@ -23,5 +29,23 @@ public class GameController : MonoBehaviour {
 		else {
 			leadingPlayer = 1;
 		}
+		SlowMotion();
+	}
+
+	float slowMotionTime;
+
+	void SlowMotion() {
+		if (slowMotionTime > 0f) {
+			slowMotionTime -= Time.deltaTime;
+		}
+		else {
+			Time.timeScale = 1f;
+		}
+
+	}
+
+	public void SetSlowMotion() {
+		Time.timeScale = .1f;
+		slowMotionTime = .05f;
 	}
 }

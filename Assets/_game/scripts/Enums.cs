@@ -5,5 +5,6 @@ public enum HookshotState {
 	Available,
 	Unavailable,
 	Shooting,
-	Dragging
+	Dragging,
+	Switch
 };

@@ -3,13 +3,12 @@ using System.Collections;
 
 public class CameraFollow : MonoBehaviour { 
 
-
-	[Space(10f)]
-
 	public float cameraSpeed;
 
 	GameController gc;
 
+	public bool splitScreen;
+	public int camNumber;
 
 	// Use this for initialization
 	void Start () {
@@ -17,15 +16,28 @@ public class CameraFollow : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void LateUpdate () {
 
-		transform.position = Vector3.Lerp(
-			transform.position, 
+		if (splitScreen) {
+			transform.position = Vector3.Lerp(
+			transform.position,
+			new Vector3(
+				gc.player[camNumber].transform.position.x,
+				gc.player[camNumber].transform.position.y,
+				transform.position.z),
+			Time.deltaTime * cameraSpeed);
+		}
+		else {
+			transform.position = Vector3.Lerp(
+			transform.position,
 			new Vector3(
 				gc.player[gc.leadingPlayer].transform.position.x,
 				gc.player[gc.leadingPlayer].transform.position.y,
-				transform.position.z), 
+				transform.position.z),
 			Time.deltaTime * cameraSpeed);
+		}
+
+		
 
 	}
 }
