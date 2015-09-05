@@ -19,6 +19,12 @@ ModelImporter:
     100022: polySurface17
     100024: polySurface19
     100026: Y_pipe_normal
+    100028: pipe_small_normal7
+    100030: group5
+    100032: pasted__pipe_turn
+    100034: pasted__pipe_turn 1
+    100036: pasted__polySurface14
+    100038: pasted__polySurface16
     400000: pipe_normal
     400002: pipe_side
     400004: pipe_small_normal
@@ -33,6 +39,12 @@ ModelImporter:
     400022: polySurface17
     400024: polySurface19
     400026: Y_pipe_normal
+    400028: pipe_small_normal7
+    400030: group5
+    400032: pasted__pipe_turn
+    400034: pasted__pipe_turn 1
+    400036: pasted__polySurface14
+    400038: pasted__polySurface16
     2300000: pipe_normal
     2300002: pipe_side
     2300004: pipe_small_normal
@@ -42,6 +54,9 @@ ModelImporter:
     2300012: pipe_to_small
     2300014: pipe_turn
     2300016: Y_pipe_normal
+    2300018: pipe_small_normal7
+    2300020: pasted__pipe_turn
+    2300022: pasted__pipe_turn 1
     3300000: pipe_normal
     3300002: pipe_side
     3300004: pipe_small_normal
@@ -51,6 +66,9 @@ ModelImporter:
     3300012: pipe_to_small
     3300014: pipe_turn
     3300016: Y_pipe_normal
+    3300018: pipe_small_normal7
+    3300020: pasted__pipe_turn
+    3300022: pasted__pipe_turn 1
     4300000: pipe_normal
     4300002: pipe_turn
     4300004: pipe_small_side
@@ -60,6 +78,9 @@ ModelImporter:
     4300012: pipe_side
     4300014: pipe_small_normal4
     4300016: Y_pipe_normal
+    4300018: pipe_small_normal7
+    4300020: pasted__pipe_turn
+    4300022: pasted__pipe_turn
     9500000: //RootNode
   materials:
     importMaterials: 0
