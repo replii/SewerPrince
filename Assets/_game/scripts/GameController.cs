@@ -45,7 +45,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void SetSlowMotion() {
-		Time.timeScale = .1f;
-		slowMotionTime = .05f;
+		Time.timeScale = .01f;
+		slowMotionTime = .0165f;
 	}
 }
